@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import AboutLink from "./AboutLink";
 
-function Header({ text, bgColor, color, home, about }) {
+function Header({ text, bgColor, color, home, about, feedbackLength }) {
   return (
     <div>
       <header style={{ background: bgColor, color: color }}>
@@ -11,16 +11,17 @@ function Header({ text, bgColor, color, home, about }) {
           <div className="header-box">
             {home && (
               <Link 
-              className="home-link" 
+              className='home-link' 
               // to="/"
 
               // Using object in Link.to
               to={{
-                pathname: '/',
+                pathname: `/`,
                 search: '?sort=name',
                 hash: '#hello'
               }}
               >
+                {/* Navlink can be used to specify  */}
                 <i class="fa-sharp fa-solid fa-house"></i>
               </Link>
             )}
