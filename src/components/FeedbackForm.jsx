@@ -1,10 +1,12 @@
 // import PropTypes from "prop-types";
-import { useState } from "react";
+import { useState, useContext, useEffect } from "react";
+
 import Card from "./shared/Card";
 import Button from "./shared/Button";
 import RatingSelect from "./RatingSelect";
-import {useContext} from 'react';
+
 import FeedbackContext from "../context/feedbackContext";
+
 
 function FeedbackForm( 
   // {feedbackAddHandler}  //Passing this feedback add handler from the context
@@ -14,7 +16,17 @@ function FeedbackForm(
   const [btnDisabled, setBtnDisabled] = useState(true);
   const [message, setMessage] = useState("");
 
-  const {feedbackAdd} = useContext(FeedbackContext);
+  const {feedbackAdd, currentFeedback, feedbackUpdate } = useContext(FeedbackContext);
+
+  useEffect(() => {
+    if(currentFeedback.edit) {
+      setBtnDisabled(false)
+      setText(currentFeedback.item.text)
+      setRating(currentFeedback.item.rating)
+    } else {
+      setBtnDisabled(true)
+    }
+  }, [currentFeedback])  
 
   const handleTextChange = (e) => {
     if (text === "") {
@@ -40,7 +52,9 @@ function FeedbackForm(
       text,
       rating
     }
-    feedbackAdd(newFeedback);
+    currentFeedback.edit 
+    ? feedbackUpdate(currentFeedback.item.id, newFeedback)
+    : feedbackAdd(newFeedback);
     setText('');
   }
 
@@ -59,7 +73,7 @@ function FeedbackForm(
             placeholder="Write a review"
           />
           <Button version="secondary" type="submit" isDisabled={btnDisabled}>
-            Send
+            {currentFeedback.edit ? 'Update' : 'Send'}
           </Button>
         </div>
         {message && <div className="message">{message}</div>}

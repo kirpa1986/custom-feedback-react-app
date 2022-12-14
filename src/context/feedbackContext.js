@@ -7,9 +7,21 @@ export const FeedbackProvider = ({ children }) => {
     {
       id: "1",
       rating: 8,
-      text: "This item is from context",
+      text: "This is Item 1",
+    },
+    {
+      id: "2",
+      rating: 8,
+      text: "This is Item 2",
+    },
+    {
+      id: "3",
+      rating: 8,
+      text: "This is Item 3",
     },
   ]);
+
+  const [feedbackEdit, setFeedbackEdit] = useState({ item: {}, edit: false });
 
   const feedbackDeleteHandler = (id) => {
     if (window.confirm("Are you sure you want to delete it?")) {
@@ -22,11 +34,32 @@ export const FeedbackProvider = ({ children }) => {
     setFeedback([newFeedback, ...feedback]);
   };
 
+  const editFeedbackHandler = (feedback) => {
+    setFeedbackEdit({ item: feedback, edit: true });
+  };
+
+  const updateFeedbackHandler = (id, updItem) => {
+    setFeedback(feedback.map((item) => (item.id === id 
+        ? {...item, ...updItem}  // Using spread operator, values rating and text from updItem will replace the existing
+        // ? {id, rating: updItem.rating, text: updItem.text}
+        : item)));
+    setFeedbackEdit({item: {}, edit: false})
+  };
+
   return (
-    <FeedbackContext.Provider value={{ feedback: feedback, feedbackDelete: feedbackDeleteHandler, feedbackAdd: feedbackAddHandler}}>
+    <FeedbackContext.Provider
+      value={{
+        feedback: feedback,
+        feedbackDelete: feedbackDeleteHandler,
+        feedbackAdd: feedbackAddHandler,
+        feedbackEdit: editFeedbackHandler,
+        currentFeedback: feedbackEdit,
+        feedbackUpdate: updateFeedbackHandler,
+      }}
+    >
       {children}
     </FeedbackContext.Provider>
   );
 };
 
-export default FeedbackContext
+export default FeedbackContext;

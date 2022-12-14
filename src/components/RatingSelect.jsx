@@ -1,7 +1,14 @@
-import { useState } from "react";
+
+import { useState, useContext,useEffect } from "react";
+import FeedbackContext from "../context/feedbackContext";
 
 function RatingSelect({ radioChangeHandler }) {
+  const { currentFeedback } = useContext(FeedbackContext);
   const [selected, setSelected] = useState(10);
+
+  useEffect(() => {
+    setSelected(currentFeedback.item.rating)
+  }, [currentFeedback])
 
   const handleRadioChange = (e) => {
     setSelected(+e.target.value);
