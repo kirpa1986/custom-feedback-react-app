@@ -5,7 +5,7 @@ import AboutLink from "./AboutLink";
 
 function Header({ text, bgColor, color, home, about, feedbackLength }) {
   return (
-    <div>
+    
       <header style={{ background: bgColor, color: color }}>
         <div className="container">
           <div className="header-box">
@@ -30,7 +30,6 @@ function Header({ text, bgColor, color, home, about, feedbackLength }) {
           </div>
         </div>
       </header>
-    </div>
   );
 }
 
